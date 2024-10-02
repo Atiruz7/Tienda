@@ -2,6 +2,19 @@
 include('conexion.php');
 session_start();
 date_default_timezone_set('America/La_Paz');
+/**
+ * Procesa la compra y genera una factura.
+ *
+ * Este script verifica si el usuario ha iniciado sesión y si tiene un 
+ * carrito de compras. Calcula el precio total de los productos, aplica 
+ * un descuento si corresponde, guarda la información de la compra en 
+ * un archivo de texto, y muestra la factura en el navegador.
+ *
+ * @global mysqli $conn Conexión a la base de datos.
+ * @global array $_SESSION Datos de sesión del usuario.
+ *
+ * @return void No retorna ningún valor.
+ */
 
 if (!isset($_SESSION['usuario_id']) || !isset($_SESSION['carrito'])) {
     header("Location: index.php");
@@ -16,6 +29,7 @@ $fecha = date("Y-m-d H:i:s");
 $carrito = $_SESSION['carrito'];
 $precioTotal = 0;
 $detalle = [];
+//calcular el detalle de la compra y crear una de la misma
 foreach ($carrito as $item) {
     $nombre = isset($item['nombre']) ? $item['nombre'] : 'Desconocido';
     $precio = isset($item['precio']) ? $item['precio'] : 0;
@@ -29,14 +43,14 @@ foreach ($carrito as $item) {
         'total' => $precio * $cantidad
     ];
 }
-
+// aplicar descuento
 $descuento = $precioTotal > 100 ? 0.10 * $precioTotal : 0;
 $totalConDescuento = $precioTotal - $descuento;
 
-
+//vaciar carrito
 $_SESSION['carrito'] = [];
 
-
+//registrar la venta en un archivo de texto
 $archivoVentas = '../Tienda/ventas.txt'; 
 $file = fopen($archivoVentas, 'a'); 
 
