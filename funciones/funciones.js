@@ -1,6 +1,16 @@
 let carrito = [];
 let precioTotal = 0;
 
+/**
+ * Agrega un producto al carrito de compras.
+ *
+ * Si el producto ya está en el carrito, incrementa su cantidad.
+ * De lo contrario, agrega un nuevo producto al carrito.
+ *
+ * @param {string} nombre - El nombre del producto.
+ * @param {number} precio - El precio del producto.
+ * @param {number} cantidad - La cantidad del producto a agregar.
+ */
 function agregarAlCarrito(nombre, precio, cantidad) {
     const item = carrito.find(item => item.nombre === nombre);
     if (item) {
@@ -11,6 +21,11 @@ function agregarAlCarrito(nombre, precio, cantidad) {
     actualizarCarrito();
 }
 
+/**
+ * Actualiza el contenido del carrito en la interfaz de usuario.
+ *
+ * Muestra todos los productos en el carrito y calcula el precio total.
+ */
 function actualizarCarrito() {
     const itemsCarrito = document.getElementById('itemsCarrito');
     itemsCarrito.innerHTML = '';
@@ -26,11 +41,22 @@ function actualizarCarrito() {
     document.getElementById('precioTotal').textContent = precioTotal.toFixed(2);
 }
 
+/**
+ * Elimina un producto del carrito de compras.
+ *
+ * @param {string} nombre - El nombre del producto a eliminar.
+ */
 function eliminarDelCarrito(nombre) {
     carrito = carrito.filter(item => item.nombre !== nombre);
     actualizarCarrito();
 }
 
+/**
+ * Procesa la compra de los productos en el carrito.
+ *
+ * Si el carrito no está vacío, calcula el total y el descuento 
+ * (si corresponde), y envía los datos de la compra al servidor.
+ */
 function comprar() {
     if (carrito.length > 0) {
         let totalCompra = carrito.reduce((total, item) => total + (item.precio * item.cantidad), 0);
@@ -74,6 +100,7 @@ function comprar() {
     }
 }
 
+// Mapa de identificación de productos
 const ids = {
     'COCA-COLA': 1,
     'CERVEZA CORONA': 2,
@@ -89,6 +116,13 @@ const ids = {
     'LECHE EN CAJA': 11,
 };
 
+/**
+ * Obtiene el ID del producto según su nombre.
+ *
+ * @param {string} nombre - El nombre del producto.
+ * @returns {number|undefined} El ID del producto o undefined si no se encuentra.
+ */
 function obtenerIdDelProducto(nombre) {
     return ids[nombre];
 }
+
