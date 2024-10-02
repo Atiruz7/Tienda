@@ -1,12 +1,25 @@
 <?php
 include('conexion.php');
 session_start();
-
+/**
+ * Muestra la página principal de la tienda.
+ *
+ * Este script verifica si el usuario ha iniciado sesión. Si no es así,
+ * redirige al usuario a la página de inicio de sesión. Si el usuario
+ * ha iniciado sesión, recupera la lista de productos de la base de datos
+ * y muestra la información en la página.
+ *
+ * @global mysqli $conn Conexión a la base de datos.
+ * @throws Exception Si ocurre un error al ejecutar la consulta SQL.
+ * 
+ * @return void No retorna ningún valor.
+ */
+//redirige al usuaria a la pagina de inicio de sesión(login)si los datos son incorrectos 
 if (!isset($_SESSION['nombre_usuario'])) {
     header("Location: login.php");
     exit();
 }
-
+//consulta para acceder a todos los productos
 $sql = "SELECT * FROM productos";
 $result = $conn->query($sql);
 ?>
