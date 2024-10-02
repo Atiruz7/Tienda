@@ -1,16 +1,28 @@
 <?php
 include('conexion.php');
+/**
+ * Procesa el registro de un nuevo usuario.
+ *
+ * Este script recibe datos de un nuevo usuario desde un formulario y los 
+ * inserta en la base de datos. Utiliza password_hash para almacenar la 
+ * contraseña de manera segura. Si el registro es exitoso, muestra un 
+ * mensaje de confirmación con un enlace para iniciar sesión.
+ *
+ * @global mysqli $conn Conexión a la base de datos.
+ *
+ * @return void No retorna ningún valor.
+ */
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nombre_usuario = $_POST['nombre_usuario'];
-    $contrasena = password_hash($_POST['contrasena'], PASSWORD_DEFAULT);
-
+    $nombre_usuario = $_POST['nombre_usuario'];//nombre de usuario proporcionado por el usuario
+    $contrasena = password_hash($_POST['contrasena'], PASSWORD_DEFAULT); //contraseña proporcionada por el usurio
+    //consulta para mañadir al nuevo usuario
     $sql = "INSERT INTO usuarios (nombre_usuario, contrasena) VALUES ('$nombre_usuario', '$contrasena')";
-
-    if ($conn->query($sql) === TRUE) {
+    //ejecuta consulta
+    if ($conn->query($sql) === TRUE) { //verific que es exitos 
         echo "Registro exitoso. <a href='login.php'>Iniciar sesión</a>";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $sql . "<br>" . $conn->error;//mensaje de error en caso de fallar
     }
 }
 ?>
