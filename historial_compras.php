@@ -1,6 +1,18 @@
 <?php 
 session_start();
 date_default_timezone_set('America/La_Paz');
+/**
+ * Muestra el historial de compras del usuario.
+ *
+ * Este script verifica si el usuario ha iniciado sesión, 
+ * lee el archivo de ventas para obtener el historial de compras 
+ * del usuario actual y presenta los datos en una tabla HTML. 
+ * También calcula los descuentos según las reglas definidas.
+ *
+ * @global array $_SESSION Datos de sesión del usuario.
+ * 
+ * @return void No retorna ningún valor.
+ */
 
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: index.php");
@@ -49,7 +61,7 @@ if (file_exists($archivoVentas)) {
                 }
             }
 
-            
+            //calcular si el descuento es aplicable
             if ($compra['total'] > 100) {
                 $compra['descuento'] = 0.10 * $compra['total'];
                 $compra['total_con_descuento'] = $compra['total'] - $compra['descuento'];
