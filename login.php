@@ -1,17 +1,30 @@
 <?php
 include('conexion.php');
 session_start();
+/**
+ * Maneja el inicio de sesión de un usuario.
+ *
+ * Este script procesa la información del formulario de inicio de sesión,
+ * valida las credenciales del usuario contra la base de datos y establece
+ * la sesión del usuario si las credenciales son correctas.
+ *
+ * @global mysqli $conn Conexión a la base de datos.
+ * @throws Exception Si ocurre un error en la base de datos.
+ * 
+ * @return void No retorna ningún valor.
+ */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nombre_usuario = $_POST['nombre_usuario'];
-    $contrasena = $_POST['contrasena'];
+    $nombre_usuario = $_POST['nombre_usuario'];//nombre ingresado 
+    $contrasena = $_POST['contrasena'];//contraseña ingresada
+    //consulta para buscar al usuario en la base de datos
     $stmt = $conn->prepare("SELECT id, nombre_usuario, contrasena FROM usuarios WHERE nombre_usuario = ?");
     $stmt->bind_param("s", $nombre_usuario);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
+    $stmt->execute();//ejecuta consulta
+    $result = $stmt->get_result();//resultados de consulta 
+    //verifica si se encontro el usuario en la base de datos
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        
+        //verifica si la contraseña es la correcta
         if (password_verify($contrasena, $row['contrasena'])) {
             
             $_SESSION['usuario_id'] = $row['id'];  
@@ -19,10 +32,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: index.php");
             exit();
         } else {
-            echo "Contraseña incorrecta.";
+            echo "Contraseña incorrecta.";//mensaje de contraseña erronea
         }
     } else {
-        echo "Usuario no encontrado.";
+        echo "Usuario no encontrado.";// mensaje de usuario inexistente
     }
 }
 ?>
