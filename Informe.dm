@@ -1,4 +1,6 @@
 Informe del Proyecto: "Tienda"
+El proyecto es una plataforma de comercio electrónico diseñada para gestionar el proceso completo de compra y venta de productos que permite a los usuarios navegar por una tienda virtual, agregar productos a un carrito, procesar compras, aplicar descuentos automáticos, y generar facturas personalizadas. 
+También incluye un historial de compras por usuario, control de stock, registro y autenticación de usuarios, asegurando un flujo organizado y seguro para todas las transacciones realizadas en la tienda.
 Lenguajes de Programación:
 JavaScript: para Manejo de la lógica del cliente y gestión de interacción con el carrito de compras.
 PHP: Backend para gestionar operaciones como registro de usuarios, autenticación y transacciones.
